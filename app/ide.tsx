@@ -5,30 +5,27 @@ import { useEffect, useRef, useState } from "react";
 import { type editor } from "monaco-editor";
 
 type CrawlValue = {
-  name?: string;
-  language?: string;
-  value?: string;
+  error?: string;
+  url?: string;
+  content?: string;
 };
 
-export default function IDE({files}: {files?: Record<string, CrawlValue>}) {
+export default function IDE({ file }: { file?: CrawlValue }) {
   const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null);
-  const [fileName, setFileName] = useState("script.js");
-
-  const file = files ? files[fileName] : null;
 
   useEffect(() => {
     editorRef.current?.focus();
-  }, [file?.name]);
+  }, [file?.url]);
 
   return (
     <div className="w-full h-full">
-        <Editor
+      <Editor
         height="90vh"
         theme=".vsdark"
-        path={file?.name}
+        path={file?.url}
         className="w-full h-full max-w-[calc(100vw - 240px)]"
-        defaultLanguage={file?.language || "html"}
-        defaultValue={file?.value}
+        defaultLanguage={"html"}
+        defaultValue={file?.content}
         onMount={(editor) => (editorRef.current = editor)}
       />
     </div>

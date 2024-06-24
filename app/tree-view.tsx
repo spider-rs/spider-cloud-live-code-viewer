@@ -3,46 +3,73 @@
 import useResizeObserver from "use-resize-observer";
 import { NodeRendererProps, Tree } from "react-arborist";
 import { BiFolder, BiFile } from "react-icons/bi";
+import { Dispatch } from "react";
 
 let id = 1;
 
-type Entry = { name: string; id: string; children?: Entry[] };
+type Entry = {
+  name: string;
+  id: string;
+  children?: Entry[];
+  dataIndex?: number;
+};
 
 const nextId = () => (id++).toString();
-const file = (name: string) => ({ name, id: nextId() });
-const folder = (name: string, ...children: Entry[]) => ({
+const file = (name: string, dataIndex: number) => ({
+  name,
+  id: nextId(),
+  dataIndex,
+});
+const folder = (name: string, dataIndex: number, ...children: Entry[]) => ({
   name,
   id: nextId(),
   children,
+  dataIndex,
 });
 
-const structure = [
-  folder(
-    "src",
-    file("index.ts"),
-    folder(
-      "lib",
-      file("index.ts"),
-      file("worker.ts"),
-      file("utils.ts"),
-      file("model.ts")
-    ),
-    folder(
-      "ui",
-      file("button.ts"),
-      file("form.ts"),
-      file("table.ts"),
-      folder(
-        "demo",
-        file("welcome.ts"),
-        file("example.ts"),
-        file("container.ts")
-      )
-    )
-  ),
-];
+type SpiderResponseChunk = {
+  url: string;
+  content: string;
+  error: string;
+  status: number;
+}[];
 
-function sortChildren(node: Entry): Entry {
+const processData = (data: SpiderResponseChunk) => {
+  const structure: any[] = [];
+
+  if (data && Array.isArray(data)) {
+    for (const [index, item] of data.entries()) {
+      const { url } = item;
+
+      if (!url) {
+        continue;
+      }
+
+      const parts = url.replace(/^https?:\/\//, "").split("/");
+      let currentLevel = structure;
+
+      parts.forEach((part: any, idx: any) => {
+        let existing = currentLevel.find((e) => e.name === part);
+
+        if (!existing) {
+          existing =
+            idx === parts.length - 1 ? file(part, index) : folder(part, index);
+          currentLevel.push(existing);
+        }
+
+        if (!existing.children) {
+          existing.children = [];
+        }
+
+        currentLevel = existing.children;
+      });
+    }
+  }
+
+  return structure;
+};
+
+const sortChildren = (node: Entry): Entry => {
   if (!node.children) return node;
   const copy = [...node.children];
   copy.sort((a, b) => {
@@ -52,49 +79,64 @@ function sortChildren(node: Entry): Entry {
   });
   const children = copy.map(sortChildren);
   return { ...node, children };
-}
+};
 
-function useTreeSort(data: Entry[]) {
+const useTreeSort = (data: Entry[]) => {
   return data.map(sortChildren);
-}
+};
 
-const DirectoryTreeView = () => {
+const DirectoryTreeView = ({
+  data,
+  setSelectedFile,
+}: {
+  data: SpiderResponseChunk;
+  setSelectedFile: Dispatch<any>;
+}) => {
   const { ref, width, height } = useResizeObserver();
-  const data = useTreeSort(structure);
+  const structure = processData(data);
+  const sortedData = useTreeSort(structure);
+
+  const handleFileClick = (file: Entry) => {
+    file && setSelectedFile(data[file?.dataIndex || 0]);
+  };
 
   return (
-      <aside ref={ref}>
-        <Tree
-          data={data}
-          width={width}
-          height={height}
-          indent={24}
-          rowHeight={36}
-          overscanCount={1}
-          paddingTop={30}
-          paddingBottom={10}
-          padding={25}
-        >
-          {Node}
-        </Tree>
-      </aside>
+    <aside ref={ref} className="md:border-r py-2 h-full">
+      <Tree data={sortedData} width={width} height={height}>
+        {(props) => <Node {...props} onFileClick={handleFileClick} />}
+      </Tree>
+    </aside>
   );
 };
 
-function Node({ node, style, dragHandle }: NodeRendererProps<Entry>) {
-  const isLeafNode = node.isLeaf;
+function Node({
+  node,
+  style,
+  dragHandle,
+  onFileClick,
+}: NodeRendererProps<Entry> & { onFileClick: (file: Entry) => void }) {
+  const isLeafNode =
+    node.isLeaf || !node.children || node.children.length === 0;
+
   const Icon = isLeafNode ? BiFile : BiFolder;
 
+  const handleClick = () => {
+    node.data && onFileClick(node.data);
+    node.toggle();
+  };
+
   return (
-    <div
-      className="flex gap-2 items-center"
-      onClick={() => node.toggle()}
+    <button
+      className={`flex w-full gap-2 items-center truncate text-sm${
+        node.isOnlySelection ? " bg-blue-200" : ""
+      }`}
+      onClick={handleClick}
       style={style}
-      ref={dragHandle}
+      ref={dragHandle as (el: HTMLButtonElement | null) => void}
     >
       <Icon />
       {node.data.name}
-    </div>
+    </button>
   );
 }
 
