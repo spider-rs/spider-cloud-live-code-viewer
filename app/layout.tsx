@@ -6,19 +6,17 @@ const inter = Inter({ subsets: ["latin"] });
 
 const description =
   "Crawl and view the website contents in realtime in VSCode. This is an example showcasing spider.cloud.";
-const url =
-  process.env.PUBLIC_NEXT_SITENAME ||
-  "https://spider-cloud-live-code-viewer.vercel.app";
+const url = process.env.PUBLIC_NEXT_SITENAME || "https://vscode.spider.cloud";
 
 export const metadata: Metadata = {
-  title: "Spider Cloud Live Viewer",
+  title: "VSCode Spider Cloud",
   description,
   openGraph: {
     type: "website",
     url,
-    title: "Spider Cloud Live Viewer",
+    title: "VSCode Spider Cloud",
     description,
-    siteName: "Spider Cloud Live Viewer",
+    siteName: "Spider Cloud VSCode Live",
     images: [
       {
         url: `${url}/og.png`,

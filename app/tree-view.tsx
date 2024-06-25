@@ -4,6 +4,7 @@ import useResizeObserver from "use-resize-observer";
 import { NodeRendererProps, Tree } from "react-arborist";
 import { BiFolder, BiFile } from "react-icons/bi";
 import { Dispatch } from "react";
+import { VscFile, VscFolder } from "react-icons/vsc";
 
 let id = 1;
 
@@ -118,7 +119,7 @@ function Node({
   const isLeafNode =
     node.isLeaf || !node.children || node.children.length === 0;
 
-  const Icon = isLeafNode ? BiFile : BiFolder;
+  const Icon = isLeafNode ? VscFile : VscFolder;
 
   const handleClick = () => {
     node.data && onFileClick(node.data);

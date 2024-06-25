@@ -1,6 +1,8 @@
-# Spider Live Preview Example App
+# Spider Cloud VSCode
 
-This is a live preview example app for [spider.cloud](https://spider.cloud)
+Crawl websites and view them in realtime using VSCode and [spider.cloud](https://spider.cloud).
+
+![Example of VSCode displaying the full contents of spider.cloud converted to markdown](./public/og.png)
 
 ## Getting Started
 
@@ -18,6 +20,6 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## How to use 
+## How to use
 
 You need an active account with [spider.cloud](https://spider.cloud) to get started. Make sure to have an API key at hand to use.
