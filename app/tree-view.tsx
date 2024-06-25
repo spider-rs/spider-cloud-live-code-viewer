@@ -2,8 +2,7 @@
 
 import useResizeObserver from "use-resize-observer";
 import { NodeRendererProps, Tree } from "react-arborist";
-import { BiFolder, BiFile } from "react-icons/bi";
-import { Dispatch } from "react";
+import { Dispatch, useMemo } from "react";
 import { VscFile, VscFolder } from "react-icons/vsc";
 
 let id = 1;
@@ -49,7 +48,9 @@ const processData = (data: SpiderResponseChunk) => {
       const parts = url.replace(/^https?:\/\//, "").split("/");
       let currentLevel = structure;
 
-      parts.forEach((part: any, idx: any) => {
+      let idx = 0;
+
+      for (const part of parts) {
         let existing = currentLevel.find((e) => e.name === part);
 
         if (!existing) {
@@ -63,7 +64,8 @@ const processData = (data: SpiderResponseChunk) => {
         }
 
         currentLevel = existing.children;
-      });
+        idx++;
+      }
     }
   }
 
@@ -82,9 +84,7 @@ const sortChildren = (node: Entry): Entry => {
   return { ...node, children };
 };
 
-const useTreeSort = (data: Entry[]) => {
-  return data.map(sortChildren);
-};
+const treeSort = (data: Entry[]) => data.map(sortChildren);
 
 const DirectoryTreeView = ({
   data,
@@ -94,8 +94,8 @@ const DirectoryTreeView = ({
   setSelectedFile: Dispatch<any>;
 }) => {
   const { ref, width, height } = useResizeObserver();
-  const structure = processData(data);
-  const sortedData = useTreeSort(structure);
+  const structure = useMemo(() => processData(data), [data]);
+  const sortedData = useMemo(() => treeSort(structure), [structure]);
 
   const handleFileClick = (file: Entry) => {
     file && setSelectedFile(data[file?.dataIndex || 0]);

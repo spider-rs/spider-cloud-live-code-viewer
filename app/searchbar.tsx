@@ -28,13 +28,45 @@ import AuthDropdown, { useAuthMenu, supabase } from "./auth";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:3031";
 
+enum StorageKeys {
+  Limit = "@app/crawl_limit",
+  ReturnFormat = "@app/return_format",
+  Request = "@app/request",
+}
+
+const localStorageReady = typeof localStorage !== "undefined";
+
+const loadDefaultCrawlLimit = () => {
+  if (!localStorageReady) {
+    return 50;
+  }
+  const climit = localStorage.getItem(StorageKeys.Limit);
+  return climit ? parseInt(climit, 10) : 50;
+};
+const loadDefaultReturnType = () => {
+  if (!localStorageReady) {
+    return "raw";
+  }
+  const returnFormat = localStorage.getItem(StorageKeys.ReturnFormat);
+  return returnFormat || "raw";
+};
+const loadDefaultRequest = () => {
+  if (!localStorageReady) {
+    return "http";
+  }
+  const request = localStorage.getItem(StorageKeys.Request);
+  return request || "http";
+};
+
 const SearchBar = ({ setDataValues }: { setDataValues: Dispatch<any> }) => {
   const [url, setURl] = useState<string>("");
   const [dataLoading, setDataLoading] = useState<boolean>(false);
   const [configModalOpen, setConfigModalOpen] = useState<boolean>(false);
-  const [crawlLimit, setCrawlLimit] = useState<number>(50);
-  const [returnFormat, setReturnFormat] = useState<string>("raw");
-  const [request, setRequest] = useState<string>("http");
+  const [crawlLimit, setCrawlLimit] = useState<number>(loadDefaultCrawlLimit());
+  const [returnFormat, setReturnFormat] = useState<string>(
+    loadDefaultReturnType(),
+  );
+  const [request, setRequest] = useState<string>(loadDefaultRequest());
 
   const auth = useAuthMenu();
 
@@ -85,7 +117,6 @@ const SearchBar = ({ setDataValues }: { setDataValues: Dispatch<any> }) => {
 
       if (res.ok) {
         finished = true;
-        setDataValues("");
 
         const reader = res.body?.getReader();
         const decoder = new TextDecoder();
@@ -147,7 +178,12 @@ const SearchBar = ({ setDataValues }: { setDataValues: Dispatch<any> }) => {
         .map((line) => JSON.parse(line));
 
       requestAnimationFrame(() => {
-        setDataValues((prevData: any) => [...prevData, ...processedData]);
+        setDataValues((prevData: any) => {
+          if (prevData && Array.isArray(prevData)) {
+            return [...prevData, ...processedData];
+          }
+          return processedData;
+        });
       });
 
       return true;
@@ -171,6 +207,14 @@ const SearchBar = ({ setDataValues }: { setDataValues: Dispatch<any> }) => {
     e.preventDefault();
     e.stopPropagation();
     await supabase.auth.signOut();
+    closeConfigModal();
+  };
+
+  const saveConfigEvent = () => {
+    localStorage.setItem(StorageKeys.Limit, crawlLimit + "");
+    localStorage.setItem(StorageKeys.Request, request + "");
+    localStorage.setItem(StorageKeys.ReturnFormat, returnFormat + "");
+
     closeConfigModal();
   };
 
@@ -289,7 +333,10 @@ const SearchBar = ({ setDataValues }: { setDataValues: Dispatch<any> }) => {
                   Return Format:
                 </Label>
 
-                <Select onValueChange={handleFormatChange}>
+                <Select
+                  onValueChange={handleFormatChange}
+                  defaultValue={returnFormat}
+                >
                   <SelectTrigger className="w-[180px]">
                     <SelectValue placeholder="Raw" id="returnFormat" />
                   </SelectTrigger>
@@ -306,7 +353,10 @@ const SearchBar = ({ setDataValues }: { setDataValues: Dispatch<any> }) => {
                   Request:
                 </Label>
 
-                <Select onValueChange={handleReturnChange}>
+                <Select
+                  onValueChange={handleReturnChange}
+                  defaultValue={request}
+                >
                   <SelectTrigger className="w-[180px]">
                     <SelectValue placeholder="HTTP" id="request" />
                   </SelectTrigger>
@@ -320,7 +370,7 @@ const SearchBar = ({ setDataValues }: { setDataValues: Dispatch<any> }) => {
 
               <Button
                 type="button"
-                onClick={closeConfigModal}
+                onClick={saveConfigEvent}
                 className="px-4 py-2 rounded self-end"
               >
                 Save

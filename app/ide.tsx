@@ -21,7 +21,7 @@ export default function IDE({ file }: { file?: CrawlValue }) {
     <div className="w-full h-full">
       <Editor
         height="90vh"
-        theme=".vsdark"
+        theme="light"
         path={file?.url}
         className="w-full h-full max-w-[calc(100vw - 240px)]"
         defaultLanguage={"html"}

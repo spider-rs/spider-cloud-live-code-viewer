@@ -20,6 +20,8 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## How to use
+## License
 
-You need an active account with [spider.cloud](https://spider.cloud) to get started. Make sure to have an API key at hand to use.
+This project is licensed under the [MIT license].
+
+[MIT license]: https://github.com/spider-rs/spider-cloud-live-code-viewer/blob/main/LICENSE
