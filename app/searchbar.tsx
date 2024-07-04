@@ -120,8 +120,6 @@ const SearchBar = ({ setDataValues }: { setDataValues: Dispatch<any> }) => {
 
         const reader = res.body?.getReader();
         const decoder = new TextDecoder();
-        let content = "";
-        let validContent = "";
 
         if (reader) {
           while (true) {
@@ -131,23 +129,10 @@ const SearchBar = ({ setDataValues }: { setDataValues: Dispatch<any> }) => {
               break;
             }
 
+            const chunk = decoder.decode(value, { stream: true });
+
             pages += 1;
-            content += decoder.decode(value, { stream: true });
-
-            if (processChunk(content)) {
-              content = ""; // Reset content after processing chunk
-              if (validContent !== "done") {
-                validContent = "set";
-              }
-            }
-
-            if (validContent == "set") {
-              validContent = "done";
-            }
-          }
-
-          if (content.length > 0) {
-            processChunk(content);
+            processChunk(chunk);
           }
         }
       }
@@ -169,20 +154,15 @@ const SearchBar = ({ setDataValues }: { setDataValues: Dispatch<any> }) => {
   };
 
   const processChunk = (chunk: string) => {
-    let processedData: any[];
-
     try {
-      processedData = chunk
-        .split("\n")
-        .filter((line) => line?.trim())
-        .map((line) => JSON.parse(line));
+      const nextChunk = chunk ? JSON.parse(chunk.trim()) : null;
 
       requestAnimationFrame(() => {
         setDataValues((prevData: any) => {
           if (prevData && Array.isArray(prevData)) {
-            return [...prevData, ...processedData];
+            return [...prevData, nextChunk];
           }
-          return processedData;
+          return [nextChunk];
         });
       });
 
