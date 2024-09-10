@@ -1,18 +1,11 @@
 "use client";
 
 import useResizeObserver from "use-resize-observer";
-import { NodeRendererProps, Tree } from "react-arborist";
+import { Tree } from "react-arborist";
 import { Dispatch, useMemo } from "react";
-import { VscFile, VscFolder } from "react-icons/vsc";
+import { Node, Entry } from "../components/tree/node";
 
 let id = 1;
-
-type Entry = {
-  name: string;
-  id: string;
-  children?: Entry[];
-  dataIndex?: number;
-};
 
 const nextId = () => (id++).toString();
 const file = (name: string, dataIndex: number) => ({
@@ -102,43 +95,17 @@ const DirectoryTreeView = ({
   };
 
   return (
-    <aside ref={ref} className="md:border-r py-2 h-full">
-      <Tree data={sortedData} width={width} height={height}>
+    <aside ref={ref} className="md:border-r py-2 h-full ">
+      <Tree
+        data={sortedData}
+        width={width}
+        height={height}
+        className="scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-gray-100 dark:scrollbar-thumb-gray-700 dark:scrollbar-track-gray-900"
+      >
         {(props) => <Node {...props} onFileClick={handleFileClick} />}
       </Tree>
     </aside>
   );
 };
-
-function Node({
-  node,
-  style,
-  dragHandle,
-  onFileClick,
-}: NodeRendererProps<Entry> & { onFileClick: (file: Entry) => void }) {
-  const isLeafNode =
-    node.isLeaf || !node.children || node.children.length === 0;
-
-  const Icon = isLeafNode ? VscFile : VscFolder;
-
-  const handleClick = () => {
-    node.data && onFileClick(node.data);
-    node.toggle();
-  };
-
-  return (
-    <button
-      className={`flex w-full gap-2 items-center truncate text-sm${
-        node.isOnlySelection ? " bg-blue-200" : ""
-      }`}
-      onClick={handleClick}
-      style={style}
-      ref={dragHandle as (el: HTMLButtonElement | null) => void}
-    >
-      <Icon />
-      {node.data.name}
-    </button>
-  );
-}
 
 export default DirectoryTreeView;

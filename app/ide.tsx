@@ -1,7 +1,7 @@
 "use client";
 
 import Editor from "@monaco-editor/react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { type editor } from "monaco-editor";
 
 type CrawlValue = {
@@ -20,13 +20,14 @@ export default function IDE({ file }: { file?: CrawlValue }) {
   return (
     <div className="w-full h-full">
       <Editor
-        height="90vh"
-        theme="light"
+        height="100%"
+        theme="vs-dark"
         path={file?.url}
         className="w-full h-full max-w-[calc(100vw - 240px)]"
-        defaultLanguage={"html"}
+        defaultLanguage={file?.url?.endsWith(".md") ? "markdown" : "html"}
         defaultValue={file?.content}
         onMount={(editor) => (editorRef.current = editor)}
+        wrapperProps={{}}
       />
     </div>
   );

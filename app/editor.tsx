@@ -18,10 +18,9 @@ export default function Editor() {
   return (
     <>
       <SearchBar setDataValues={setDataValues} />
-
       <ResizablePanelGroup
         direction="horizontal"
-        className="gap-2 w-full h-full"
+        className="gap-2 w-full h-full flex-1"
       >
         <ResizablePanel defaultSize={25}>
           <TreeView data={dataValues} setSelectedFile={setSelectedFile} />
@@ -31,7 +30,6 @@ export default function Editor() {
           <IDE file={selectedFile} />
         </ResizablePanel>
       </ResizablePanelGroup>
-
       <Toaster />
     </>
   );

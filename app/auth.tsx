@@ -209,7 +209,7 @@ const AuthDropdown = ({
                     message: "block w-full py-2 text-red-500 text-center",
                   },
                 }}
-                providers={["github"]}
+                providers={["github", "discord"]}
                 redirectTo="https://vscode.spider.cloud"
                 localization={{
                   variables: {

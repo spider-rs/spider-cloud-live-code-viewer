@@ -5,7 +5,7 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 const description =
-  "Crawl and view the website contents in realtime in VSCode. This is an example showcasing spider.cloud.";
+  "Crawl and view the website contents in realtime in VSCode. This is an example showcasing Spider Cloud.";
 const url = process.env.PUBLIC_NEXT_SITENAME || "https://vscode.spider.cloud";
 
 export const metadata: Metadata = {
@@ -31,7 +31,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="dark">
       <body className={inter.className}>{children}</body>
     </html>
   );

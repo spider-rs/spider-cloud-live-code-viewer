@@ -66,11 +66,16 @@ const SearchBar = ({ setDataValues }: { setDataValues: Dispatch<any> }) => {
   const [returnFormat, setReturnFormat] = useState<string>(
     loadDefaultReturnType(),
   );
+  const [apiKey, setAPIKey] = useState<string>("");
   const [request, setRequest] = useState<string>(loadDefaultRequest());
 
   const auth = useAuthMenu();
 
   const { toast } = useToast();
+
+  const onInputChangeEvent = (e: SyntheticEvent<HTMLInputElement>) => {
+    setAPIKey(e.currentTarget.value);
+  };
 
   const onAPIEvent = async (e: SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -111,7 +116,7 @@ const SearchBar = ({ setDataValues }: { setDataValues: Dispatch<any> }) => {
         body: JSON.stringify(paramValues),
         headers: {
           "content-type": "application/jsonl",
-          authorization: jwt,
+          authorization: apiKey || jwt,
         },
       });
 
@@ -243,16 +248,15 @@ const SearchBar = ({ setDataValues }: { setDataValues: Dispatch<any> }) => {
             <Badge variant="secondary" className="uppercase">
               Alpha
             </Badge>
-            <Label htmlFor="search" className="sr-only">
-              Search
-            </Label>
             <div className="relative">
+              <Label htmlFor="website-form" className="sr-only">
+                Crawl Website
+              </Label>
               <Input
                 type="text"
-                id="search"
-                className="dark:text-black rounded border px-4 py-2 pr-10 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                id="website-form"
+                className="rounded border px-4 py-2 pr-10 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="Enter website..."
-                aria-label="Search"
                 onChange={onChangeEvent}
               />
               <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
@@ -286,7 +290,7 @@ const SearchBar = ({ setDataValues }: { setDataValues: Dispatch<any> }) => {
           onOpenChange={(e: boolean) => setConfigModalOpen(e)}
         >
           <DialogOverlay />
-          <DialogContent className="p-4 bg-white rounded-md shadow-md">
+          <DialogContent className="p-4rounded-md shadow-md">
             <DialogHeader>
               <DialogTitle>Configuration</DialogTitle>
               <DialogDescription>
@@ -332,7 +336,6 @@ const SearchBar = ({ setDataValues }: { setDataValues: Dispatch<any> }) => {
                 <Label htmlFor="request" className="flex-1">
                   Request:
                 </Label>
-
                 <Select
                   onValueChange={handleReturnChange}
                   defaultValue={request}
@@ -346,6 +349,21 @@ const SearchBar = ({ setDataValues }: { setDataValues: Dispatch<any> }) => {
                     <SelectItem value="smart">Smart Mode</SelectItem>
                   </SelectContent>
                 </Select>
+              </div>
+
+              <div>
+                <Label htmlFor="sk-key">API Key</Label>
+                <Input
+                  placeholder="sk-somesecret"
+                  id="sk-key"
+                  onChange={onInputChangeEvent}
+                />
+                <div className="py-2 text-sm text-muted-foreground">
+                  <p>
+                    This key does not get stored and is only used in the current
+                    session.
+                  </p>
+                </div>
               </div>
 
               <Button

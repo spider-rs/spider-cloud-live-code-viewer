@@ -77,3 +77,7 @@
       @apply bg-background text-foreground;
     }
   }
+
+  .monaco-editor, .monaco-editor-background, .monaco-editor .margin { 
+    background: transparent !important
+   }
