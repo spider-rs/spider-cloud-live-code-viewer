@@ -64,7 +64,7 @@ const SearchBar = ({ setDataValues }: { setDataValues: Dispatch<any> }) => {
   const [configModalOpen, setConfigModalOpen] = useState<boolean>(false);
   const [crawlLimit, setCrawlLimit] = useState<number>(loadDefaultCrawlLimit());
   const [returnFormat, setReturnFormat] = useState<string>(
-    loadDefaultReturnType(),
+    loadDefaultReturnType()
   );
   const [apiKey, setAPIKey] = useState<string>("");
   const [request, setRequest] = useState<string>(loadDefaultRequest());
@@ -96,8 +96,20 @@ const SearchBar = ({ setDataValues }: { setDataValues: Dispatch<any> }) => {
       });
     }
 
+    const urlList = url
+      ?.trim()
+      .split(",")
+      .map((item) =>
+        item.startsWith("http://") || item.startsWith("https://")
+          ? item.trim()
+          : `https://${item}`
+      )
+      .filter(Boolean);
+
+    const _url = urlList.join(",");
+
     const paramValues = {
-      url: url.startsWith("http") ? url : `https://${url}`,
+      url: _url,
       limit: crawlLimit,
       return_format: returnFormat,
       request,
@@ -109,6 +121,13 @@ const SearchBar = ({ setDataValues }: { setDataValues: Dispatch<any> }) => {
 
     let pages = 0;
     let finished = false;
+
+    toast({
+      title: "Crawling",
+      description: `Crawling ${urlList.length} website${
+        urlList.length === 1 ? "" : "s"
+      } - ${urlList.join("\n")}.`,
+    });
 
     try {
       const res = await fetch(API_URL + "/crawl", {
