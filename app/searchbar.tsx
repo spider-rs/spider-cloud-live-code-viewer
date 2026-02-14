@@ -76,6 +76,7 @@ const SearchBar = ({
   const [request, setRequest] = useState<string>(loadDefaultRequest());
 
   const crawledPagesRef = useRef<any[]>([]);
+  const streamBufferRef = useRef<string>("");
 
   const auth = useAuthMenu();
 
@@ -125,6 +126,7 @@ const SearchBar = ({
 
     setDataLoading(true);
     crawledPagesRef.current = [];
+    streamBufferRef.current = "";
 
     const current = performance.now();
 
@@ -159,13 +161,32 @@ const SearchBar = ({
             const { done, value } = await reader.read();
 
             if (done) {
+              // Process any remaining buffered data
+              if (streamBufferRef.current.trim()) {
+                if (processLine(streamBufferRef.current.trim())) {
+                  pages += 1;
+                }
+              }
+              streamBufferRef.current = "";
               break;
             }
 
             const chunk = decoder.decode(value, { stream: true });
 
-            pages += 1;
-            processChunk(chunk);
+            // Append to buffer and split by newlines to handle JSONL
+            streamBufferRef.current += chunk;
+            const lines = streamBufferRef.current.split("\n");
+
+            // Keep the last (potentially incomplete) line in the buffer
+            streamBufferRef.current = lines.pop() || "";
+
+            for (const line of lines) {
+              const trimmed = line.trim();
+              if (!trimmed) continue;
+              if (processLine(trimmed)) {
+                pages += 1;
+              }
+            }
           }
         }
       }
@@ -175,6 +196,7 @@ const SearchBar = ({
       }
     } finally {
       setDataLoading(false);
+      streamBufferRef.current = "";
       if (finished) {
         toast({
           title: "Crawl finished",
@@ -194,20 +216,20 @@ const SearchBar = ({
     }
   };
 
-  const processChunk = (chunk: string) => {
+  const processLine = (line: string) => {
     try {
-      const nextChunk = chunk ? JSON.parse(chunk.trim()) : null;
+      const parsed = JSON.parse(line);
 
-      if (nextChunk) {
-        crawledPagesRef.current.push(nextChunk);
+      if (parsed) {
+        crawledPagesRef.current.push(parsed);
       }
 
       requestAnimationFrame(() => {
         setDataValues((prevData: any) => {
           if (prevData && Array.isArray(prevData)) {
-            return [...prevData, nextChunk];
+            return [...prevData, parsed];
           }
-          return [nextChunk];
+          return [parsed];
         });
       });
 
