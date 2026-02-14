@@ -30,7 +30,7 @@ const NodeWrapper = ({
   return (
     <button
       className={`w-full${
-        node.isOnlySelection ? " bg-blue-200 dark:bg-gray-800" : ""
+        node.isOnlySelection ? " bg-primary/10 dark:bg-primary/10" : ""
       }`}
       onClick={handleClick}
       style={style}

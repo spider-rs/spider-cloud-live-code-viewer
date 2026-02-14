@@ -100,7 +100,7 @@ const DirectoryTreeView = ({
         data={sortedData}
         width={width}
         height={height}
-        className="scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-gray-100 dark:scrollbar-thumb-gray-700 dark:scrollbar-track-gray-900"
+        className="scrollbar-thin scrollbar-thumb-muted scrollbar-track-background"
       >
         {(props) => <Node {...props} onFileClick={handleFileClick} />}
       </Tree>

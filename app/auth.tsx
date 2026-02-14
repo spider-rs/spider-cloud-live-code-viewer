@@ -161,12 +161,13 @@ const AuthDropdown = ({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       {$session ? null : (
-        <div className="flex gap-3 items-center">
+        <div className="flex gap-2 items-center shrink-0">
           <DialogTrigger
             onClick={onLoginEvent}
             className={`${buttonVariants({
               variant: "default",
-            })} uppercase font-mono bg-black text-white dark:bg-white dark:text-black`}
+              size: "sm",
+            })} uppercase font-mono text-xs`}
           >
             <span>Sign In</span>
           </DialogTrigger>
@@ -174,7 +175,8 @@ const AuthDropdown = ({
             onClick={onRegisterEvent}
             className={`${buttonVariants({
               variant: "outline",
-            })} uppercase font-mono dark:border-white border-black`}
+              size: "sm",
+            })} uppercase font-mono text-xs border-primary/50 hover:border-primary`}
           >
             <span>Register</span>
           </DialogTrigger>
@@ -198,14 +200,14 @@ const AuthDropdown = ({
                 appearance={{
                   extend: false,
                   className: {
-                    divider: "w-full h-0.5 bg-gray-200 dark:bg-gray-800 my-4",
+                    divider: "w-full h-0.5 bg-border my-4",
                     label: "block py-1",
                     container: "grid gap-3",
                     button:
-                      "px-3 py-2 rounded border-2 hover:bg-blue-300 dark:hover:bg-blue-600 dark:hover:text-gray-200 hover:text-gray-600 dark:hover:border-blue-500 hover:border-blue-500 flex gap-2 place-content-center place-items-center",
+                      "px-3 py-2 rounded border-2 border-border hover:border-primary/50 hover:bg-primary/10 flex gap-2 place-content-center place-items-center",
                     input:
                       "px-3 py-2 rounded border-2 flex-1 w-full bg-transparent",
-                    anchor: "text-center underline hover:text-blue-500",
+                    anchor: "text-center underline hover:text-primary",
                     message: "block w-full py-2 text-red-500 text-center",
                   },
                 }}
