@@ -1,6 +1,6 @@
 "use client";
 
-import React, { Dispatch, SyntheticEvent, useState } from "react";
+import React, { Dispatch, SyntheticEvent, useRef, useState } from "react";
 import { VscLoading, VscSearch, VscSettings } from "react-icons/vsc";
 import ms from "ms";
 
@@ -25,6 +25,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import AuthDropdown, { useAuthMenu, supabase } from "./auth";
+import { savePages } from "@/lib/storage";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:3031";
 
@@ -58,7 +59,13 @@ const loadDefaultRequest = () => {
   return request || "http";
 };
 
-const SearchBar = ({ setDataValues }: { setDataValues: Dispatch<any> }) => {
+const SearchBar = ({
+  setDataValues,
+  onSaveComplete,
+}: {
+  setDataValues: Dispatch<any>;
+  onSaveComplete?: () => void;
+}) => {
   const [url, setURl] = useState<string>("");
   const [dataLoading, setDataLoading] = useState<boolean>(false);
   const [configModalOpen, setConfigModalOpen] = useState<boolean>(false);
@@ -68,6 +75,8 @@ const SearchBar = ({ setDataValues }: { setDataValues: Dispatch<any> }) => {
   );
   const [apiKey, setAPIKey] = useState<string>("");
   const [request, setRequest] = useState<string>(loadDefaultRequest());
+
+  const crawledPagesRef = useRef<any[]>([]);
 
   const auth = useAuthMenu();
 
@@ -116,6 +125,7 @@ const SearchBar = ({ setDataValues }: { setDataValues: Dispatch<any> }) => {
     };
 
     setDataLoading(true);
+    crawledPagesRef.current = [];
 
     const current = performance.now();
 
@@ -173,13 +183,25 @@ const SearchBar = ({ setDataValues }: { setDataValues: Dispatch<any> }) => {
             long: true,
           })} for ${pages} page${pages === 1 ? "" : "s"}.`,
         });
+
+        // Persist crawled pages to IndexedDB
+        if (crawledPagesRef.current.length) {
+          savePages(crawledPagesRef.current)
+            .then(() => onSaveComplete?.())
+            .catch(console.error);
+        }
       }
+      crawledPagesRef.current = [];
     }
   };
 
   const processChunk = (chunk: string) => {
     try {
       const nextChunk = chunk ? JSON.parse(chunk.trim()) : null;
+
+      if (nextChunk) {
+        crawledPagesRef.current.push(nextChunk);
+      }
 
       requestAnimationFrame(() => {
         setDataValues((prevData: any) => {
