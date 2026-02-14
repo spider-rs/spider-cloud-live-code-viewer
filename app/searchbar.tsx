@@ -13,7 +13,6 @@ import {
   DialogOverlay,
 } from "@/components/ui/dialog";
 import { useToast } from "@/components/ui/use-toast";
-import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -275,12 +274,6 @@ const SearchBar = ({
               </a>
             </p>
           </div>
-        </div>
-
-        <div className="hidden md:block">
-          <Badge variant="secondary" className="uppercase text-[10px]">
-            Alpha
-          </Badge>
         </div>
 
         <form
