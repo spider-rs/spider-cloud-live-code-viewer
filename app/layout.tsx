@@ -4,24 +4,60 @@ import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
+const title = "Spider Code Editor — Live Web Crawler Viewer";
 const description =
-  "Crawl and view the website contents in realtime in VSCode. This is an example showcasing Spider Cloud.";
+  "Crawl any website and view the results in a live code editor. Powered by Spider Cloud, the fastest web crawling infrastructure. Inspect HTML, markdown, and raw data in real time.";
 const url = process.env.PUBLIC_NEXT_SITENAME || "https://vscode.spider.cloud";
 
 export const metadata: Metadata = {
-  title: "VSCode Spider Cloud",
+  title,
   description,
+  metadataBase: new URL(url),
+  keywords: [
+    "web crawler",
+    "spider cloud",
+    "code editor",
+    "web scraping",
+    "website crawler",
+    "HTML viewer",
+    "live crawling",
+    "crawl viewer",
+    "spider.cloud",
+  ],
+  authors: [{ name: "Spider", url: "https://spider.cloud" }],
+  creator: "Spider",
+  publisher: "Spider",
   openGraph: {
     type: "website",
     url,
-    title: "VSCode Spider Cloud",
+    title,
     description,
-    siteName: "Spider Cloud VSCode Live",
+    siteName: "Spider Cloud",
     images: [
       {
-        url: `${url}/og.png`,
+        url: "/og.png",
+        width: 1200,
+        height: 630,
+        alt: "Spider Code Editor — Live Web Crawler Viewer",
       },
     ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title,
+    description,
+    images: ["/og.png"],
+    creator: "@spider_rust",
+  },
+  icons: {
+    icon: [
+      { url: "/favicon.svg", type: "image/svg+xml" },
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+    ],
+  },
+  alternates: {
+    canonical: url,
   },
 };
 

@@ -2,3 +2,5 @@ User-agent: *
 Allow: /
 
 Sitemap: https://vscode.spider.cloud/sitemap.xml
+
+# Spider Code Editor — powered by spider.cloud
