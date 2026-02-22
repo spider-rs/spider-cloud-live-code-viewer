@@ -34,8 +34,8 @@ const expireAuthCookies = () => {
 const windowExist = typeof window !== "undefined";
 
 export const supabase = createClient(
-  String(process.env.NEXT_PUBLIC_SUPABASE_URL),
-  String(process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY),
+  process.env.NEXT_PUBLIC_SUPABASE_URL || "https://placeholder.supabase.co",
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "placeholder",
   {
     auth: {
       persistSession: windowExist,
