@@ -276,8 +276,8 @@ const SearchBar = ({
             </svg>
             <h1 className="text-sm font-semibold truncate hidden sm:block">Spider Archiver</h1>
           </a>
-          <form className="flex items-center gap-2 flex-1 min-w-0" onSubmit={onAPIEvent} noValidate>
-            <div className="relative flex-1 max-w-lg">
+          <form className="flex items-center gap-2 flex-1 min-w-0 justify-end" onSubmit={onAPIEvent} noValidate>
+            <div className="relative w-full max-w-xs sm:max-w-sm">
               <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                 <VscSearch className="w-4 h-4 text-muted-foreground" />
               </div>
