@@ -1,4 +1,4 @@
-const DB_NAME = "spider-code-editor";
+const DB_NAME = "spider-archiver";
 const DB_VERSION = 1;
 const PAGES_STORE = "pages";
 const MAX_STORAGE_BYTES = 50 * 1024 * 1024; // 50MB

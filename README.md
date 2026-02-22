@@ -1,8 +1,8 @@
-# Spider Cloud VSCode
+# Spider Archiver
 
-Crawl websites and view them in realtime using VSCode and [spider.cloud](https://spider.cloud).
+Crawl and archive websites locally using [spider.cloud](https://spider.cloud). Browse saved pages in a VSCode-like interface with syntax highlighting.
 
-![Example of VSCode displaying the full contents of spider.cloud converted to markdown](./public/og.png)
+![Spider Archiver — crawl and archive any website](./public/og.png)
 
 ## Getting Started
 

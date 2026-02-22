@@ -187,7 +187,7 @@ const AuthDropdown = ({
         <>
           <div className="max-w-screen-sm container text-black dark:text-white pb-10">
             <DialogTitle className="capitalize text-center">
-              Spider Cloud VSCode Live Preview
+              Spider Cloud Archiver
             </DialogTitle>
             <DialogDescription className="text-center">
               Authenticate to start.
@@ -212,7 +212,7 @@ const AuthDropdown = ({
                   },
                 }}
                 providers={["github", "discord"]}
-                redirectTo="https://vscode.spider.cloud"
+                redirectTo="https://archiver.spider.cloud"
                 localization={{
                   variables: {
                     sign_up: {

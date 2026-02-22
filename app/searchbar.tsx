@@ -52,10 +52,10 @@ const loadDefaultReturnType = () => {
 };
 const loadDefaultRequest = () => {
   if (!localStorageReady) {
-    return "http";
+    return "smart";
   }
   const request = localStorage.getItem(StorageKeys.Request);
-  return request || "http";
+  return request || "smart";
 };
 
 const SearchBar = ({

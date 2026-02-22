@@ -1,6 +1,6 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://vscode.spider.cloud/sitemap.xml
+Sitemap: https://archiver.spider.cloud/sitemap.xml
 
-# Spider Code Editor — powered by spider.cloud
+# Spider Archiver — powered by spider.cloud
