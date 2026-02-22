@@ -2,12 +2,14 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 
+import { Analytics } from "@vercel/analytics/react";
+
 const inter = Inter({ subsets: ["latin"] });
 
-const title = "Spider Code Editor — Live Web Crawler Viewer";
+const title = "Spider Archiver — Crawl & Archive Any Website";
 const description =
-  "Crawl any website and view the results in a live code editor. Powered by Spider Cloud, the fastest web crawling infrastructure. Inspect HTML, markdown, and raw data in real time.";
-const url = process.env.PUBLIC_NEXT_SITENAME || "https://vscode.spider.cloud";
+  "Crawl any website and archive the results locally. Powered by Spider Cloud, the fastest web crawling infrastructure. Save, browse, and inspect HTML, markdown, and raw data.";
+const url = process.env.PUBLIC_NEXT_SITENAME || "https://archiver.spider.cloud";
 
 export const metadata: Metadata = {
   title,
@@ -16,7 +18,7 @@ export const metadata: Metadata = {
   keywords: [
     "web crawler",
     "spider cloud",
-    "code editor",
+    "web archiver",
     "web scraping",
     "website crawler",
     "HTML viewer",
@@ -38,7 +40,7 @@ export const metadata: Metadata = {
         url: "/og.png",
         width: 1200,
         height: 630,
-        alt: "Spider Code Editor — Live Web Crawler Viewer",
+        alt: "Spider Archiver — Crawl & Archive Any Website",
       },
     ],
   },
@@ -68,7 +70,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>{children}<Analytics />
+      </body>
     </html>
   );
 }

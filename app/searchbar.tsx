@@ -267,77 +267,51 @@ const SearchBar = ({
 
   return (
     <>
-      <nav className="flex items-center gap-2 py-2 px-3 border-b flex-wrap">
-        <div className="flex gap-3 items-center shrink-0">
-          <svg
-            height={24}
-            width={24}
-            viewBox="0 0 36 34"
-            xmlSpace="preserve"
-            xmlns="http://www.w3.org/2000/svg"
-            className="fill-[#3bde77] shrink-0"
-          >
-            <title>Spider v1 Logo</title>
-            <path
-              fillRule="evenodd"
-              clipRule="evenodd"
-              d="M9.13883 7.06589V0.164429L13.0938 0.164429V6.175L14.5178 7.4346C15.577 6.68656 16.7337 6.27495 17.945 6.27495C19.1731 6.27495 20.3451 6.69807 21.4163 7.46593L22.8757 6.175V0.164429L26.8307 0.164429V7.06589V7.95679L26.1634 8.54706L24.0775 10.3922C24.3436 10.8108 24.5958 11.2563 24.8327 11.7262L26.0467 11.4215L28.6971 8.08749L31.793 10.5487L28.7257 14.407L28.3089 14.9313L27.6592 15.0944L26.2418 15.4502C26.3124 15.7082 26.3793 15.9701 26.4422 16.2355L28.653 16.6566L29.092 16.7402L29.4524 17.0045L35.3849 21.355L33.0461 24.5444L27.474 20.4581L27.0719 20.3816C27.1214 21.0613 27.147 21.7543 27.147 22.4577C27.147 22.5398 27.1466 22.6214 27.1459 22.7024L29.5889 23.7911L30.3219 24.1177L30.62 24.8629L33.6873 32.5312L30.0152 34L27.246 27.0769L26.7298 26.8469C25.5612 32.2432 22.0701 33.8808 17.945 33.8808C13.8382 33.8808 10.3598 32.2577 9.17593 26.9185L8.82034 27.0769L6.05109 34L2.37897 32.5312L5.44629 24.8629L5.74435 24.1177L6.47743 23.7911L8.74487 22.7806C8.74366 22.6739 8.74305 22.5663 8.74305 22.4577C8.74305 21.7616 8.76804 21.0758 8.81654 20.4028L8.52606 20.4581L2.95395 24.5444L0.615112 21.355L6.54761 17.0045L6.908 16.7402L7.34701 16.6566L9.44264 16.2575C9.50917 15.9756 9.5801 15.6978 9.65528 15.4242L8.34123 15.0944L7.69155 14.9313L7.27471 14.407L4.20739 10.5487L7.30328 8.08749L9.95376 11.4215L11.0697 11.7016C11.3115 11.2239 11.5692 10.7716 11.8412 10.3473L9.80612 8.54706L9.13883 7.95679V7.06589Z"
-            ></path>
-          </svg>
-          <div className="min-w-0">
-            <h1 className="text-sm md:text-base font-semibold truncate">Spider Crawler VSCode</h1>
-            <p className="text-xs text-muted-foreground hidden sm:block">
-              App made for{" "}
-              <a
-                href="https://spider.cloud"
-                className="underline hover:text-primary"
-              >
-                spider.cloud
-              </a>
-            </p>
+      <nav className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <div className="flex items-center gap-3 py-2.5 px-4">
+          <a href="https://spider.cloud" target="_blank" rel="noreferrer" className="flex gap-2.5 items-center shrink-0 group">
+            <svg height={24} width={24} viewBox="0 0 36 34" xmlns="http://www.w3.org/2000/svg" className="fill-[#3bde77] shrink-0 group-hover:scale-110 transition-transform">
+              <title>Spider</title>
+              <path fillRule="evenodd" clipRule="evenodd" d="M9.13883 7.06589V0.164429L13.0938 0.164429V6.175L14.5178 7.4346C15.577 6.68656 16.7337 6.27495 17.945 6.27495C19.1731 6.27495 20.3451 6.69807 21.4163 7.46593L22.8757 6.175V0.164429L26.8307 0.164429V7.06589V7.95679L26.1634 8.54706L24.0775 10.3922C24.3436 10.8108 24.5958 11.2563 24.8327 11.7262L26.0467 11.4215L28.6971 8.08749L31.793 10.5487L28.7257 14.407L28.3089 14.9313L27.6592 15.0944L26.2418 15.4502C26.3124 15.7082 26.3793 15.9701 26.4422 16.2355L28.653 16.6566L29.092 16.7402L29.4524 17.0045L35.3849 21.355L33.0461 24.5444L27.474 20.4581L27.0719 20.3816C27.1214 21.0613 27.147 21.7543 27.147 22.4577C27.147 22.5398 27.1466 22.6214 27.1459 22.7024L29.5889 23.7911L30.3219 24.1177L30.62 24.8629L33.6873 32.5312L30.0152 34L27.246 27.0769L26.7298 26.8469C25.5612 32.2432 22.0701 33.8808 17.945 33.8808C13.8382 33.8808 10.3598 32.2577 9.17593 26.9185L8.82034 27.0769L6.05109 34L2.37897 32.5312L5.44629 24.8629L5.74435 24.1177L6.47743 23.7911L8.74487 22.7806C8.74366 22.6739 8.74305 22.5663 8.74305 22.4577C8.74305 21.7616 8.76804 21.0758 8.81654 20.4028L8.52606 20.4581L2.95395 24.5444L0.615112 21.355L6.54761 17.0045L6.908 16.7402L7.34701 16.6566L9.44264 16.2575C9.50917 15.9756 9.5801 15.6978 9.65528 15.4242L8.34123 15.0944L7.69155 14.9313L7.27471 14.407L4.20739 10.5487L7.30328 8.08749L9.95376 11.4215L11.0697 11.7016C11.3115 11.2239 11.5692 10.7716 11.8412 10.3473L9.80612 8.54706L9.13883 7.95679V7.06589Z" />
+            </svg>
+            <h1 className="text-sm font-semibold truncate hidden sm:block">Spider Archiver</h1>
+          </a>
+          <form className="flex items-center gap-2 flex-1 min-w-0" onSubmit={onAPIEvent} noValidate>
+            <div className="relative flex-1 max-w-lg">
+              <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                <VscSearch className="w-4 h-4 text-muted-foreground" />
+              </div>
+              <Label htmlFor="website-form" className="sr-only">Crawl Website</Label>
+              <Input
+                type="text"
+                id="website-form"
+                className="pl-9 pr-3 h-9 text-sm w-full rounded-lg border-muted-foreground/25 bg-muted/40 placeholder:text-muted-foreground/50 focus-visible:ring-[#3bde77]/40 focus-visible:border-[#3bde77]/50 transition-colors"
+                placeholder="Enter website URL to crawl..."
+                onChange={onChangeEvent}
+              />
+            </div>
+            <Button
+              type="submit"
+              size="sm"
+              disabled={dataLoading}
+              className="bg-[#3bde77] hover:bg-[#2bc866] text-black font-medium h-9 px-4 rounded-lg shrink-0 disabled:opacity-70"
+            >
+              {dataLoading ? (
+                <><VscLoading className="motion-safe:animate-spin w-3.5 h-3.5 mr-1.5" />Crawling</>
+              ) : (
+                "Crawl"
+              )}
+            </Button>
+          </form>
+          <div className="flex items-center gap-1 shrink-0">
+            {auth?.$session ? (
+              <Button type="button" variant="ghost" size="sm" onClick={openConfigModal} className="h-8 w-8 p-0 rounded-lg text-muted-foreground hover:text-foreground">
+                <VscSettings className="w-4 h-4" />
+              </Button>
+            ) : null}
+            <AuthDropdown {...auth} />
           </div>
         </div>
-
-        <form
-          className="flex items-center gap-2 flex-1 min-w-0 justify-end"
-          onSubmit={onAPIEvent}
-          noValidate
-        >
-          <div className="relative w-full max-w-xs">
-            <Label htmlFor="website-form" className="sr-only">
-              Crawl Website
-            </Label>
-            <Input
-              type="text"
-              id="website-form"
-              className="rounded border px-3 py-1.5 pr-9 text-sm focus:outline-none focus:ring-2 focus:ring-primary w-full"
-              placeholder="Enter website..."
-              onChange={onChangeEvent}
-            />
-            <div className="absolute inset-y-0 right-0 flex items-center pr-2.5 pointer-events-none">
-              {dataLoading ? (
-                <VscLoading className="motion-safe:animate-spin w-4 h-4" />
-              ) : (
-                <VscSearch className="w-4 h-4" />
-              )}
-            </div>
-          </div>
-
-          {auth?.$session ? (
-            <Button
-              type="button"
-              variant={"ghost"}
-              size="sm"
-              onClick={openConfigModal}
-              className="hover:bg-accent p-1.5 rounded text-muted-foreground hover:text-foreground shrink-0"
-            >
-              <span className="sr-only">Crawl Settings</span>
-              <VscSettings className="w-5 h-5" />
-            </Button>
-          ) : null}
-        </form>
-
-        <AuthDropdown {...auth} />
       </nav>
 
       {configModalOpen && (
