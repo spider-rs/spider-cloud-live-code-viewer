@@ -282,34 +282,36 @@ const SearchBar = ({
             </svg>
             <h1 className="text-sm font-semibold truncate hidden sm:block">Spider Archiver</h1>
           </a>
-          <form className="flex items-center gap-2 flex-1 min-w-0 justify-end" onSubmit={onAPIEvent} noValidate>
-            <div className="relative w-full max-w-xs sm:max-w-sm">
-              <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                <VscSearch className="w-4 h-4 text-muted-foreground" />
+          {auth?.$session ? (
+            <form className="flex items-center gap-2 flex-1 min-w-0 justify-end" onSubmit={onAPIEvent} noValidate>
+              <div className="relative w-full max-w-xs sm:max-w-sm">
+                <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                  <VscSearch className="w-4 h-4 text-muted-foreground" />
+                </div>
+                <Label htmlFor="website-form" className="sr-only">Crawl Website</Label>
+                <Input
+                  type="text"
+                  id="website-form"
+                  className="pl-9 pr-3 h-9 text-sm w-full rounded-lg border-muted-foreground/25 bg-muted/40 placeholder:text-muted-foreground/50 focus-visible:ring-[#3bde77]/40 focus-visible:border-[#3bde77]/50 transition-colors"
+                  placeholder="Enter website URL to crawl..."
+                  value={url}
+                  onChange={onChangeEvent}
+                />
               </div>
-              <Label htmlFor="website-form" className="sr-only">Crawl Website</Label>
-              <Input
-                type="text"
-                id="website-form"
-                className="pl-9 pr-3 h-9 text-sm w-full rounded-lg border-muted-foreground/25 bg-muted/40 placeholder:text-muted-foreground/50 focus-visible:ring-[#3bde77]/40 focus-visible:border-[#3bde77]/50 transition-colors"
-                placeholder="Enter website URL to crawl..."
-                value={url}
-                onChange={onChangeEvent}
-              />
-            </div>
-            <Button
-              type="submit"
-              size="sm"
-              disabled={dataLoading}
-              className="bg-[#3bde77] hover:bg-[#2bc866] text-black font-medium h-9 px-4 rounded-lg shrink-0 disabled:opacity-70"
-            >
-              {dataLoading ? (
-                <><VscLoading className="motion-safe:animate-spin w-3.5 h-3.5 mr-1.5" />Crawling</>
-              ) : (
-                "Crawl"
-              )}
-            </Button>
-          </form>
+              <Button
+                type="submit"
+                size="sm"
+                disabled={dataLoading}
+                className="bg-[#3bde77] hover:bg-[#2bc866] text-black font-medium h-9 px-4 rounded-lg shrink-0 disabled:opacity-70"
+              >
+                {dataLoading ? (
+                  <><VscLoading className="motion-safe:animate-spin w-3.5 h-3.5 mr-1.5" />Crawling</>
+                ) : (
+                  "Crawl"
+                )}
+              </Button>
+            </form>
+          ) : <div className="flex-1" />}
           <div className="flex items-center gap-1 shrink-0">
             <AppSwitcher currentUrl={url} />
             {auth?.$session ? (
