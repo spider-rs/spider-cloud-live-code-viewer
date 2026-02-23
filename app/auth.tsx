@@ -63,6 +63,32 @@ export const useAuthMenu = () => {
   const [$session, setSession] = useState<Session | null>(null);
 
   useEffect(() => {
+    // Handle OAuth callback — parse tokens from URL hash fragment
+    if (typeof window !== "undefined" && window.location.hash.includes("access_token")) {
+      const params = new URLSearchParams(window.location.hash.substring(1));
+      const access_token = params.get("access_token");
+      const refresh_token = params.get("refresh_token");
+      if (access_token && refresh_token) {
+        let user: Session["user"] | undefined;
+        try {
+          const payload = JSON.parse(atob(access_token.split(".")[1]));
+          user = { id: payload.sub, email: payload.email };
+        } catch {}
+        const session: Session = {
+          access_token,
+          refresh_token,
+          expires_at: Number(params.get("expires_at")) || undefined,
+          expires_in: Number(params.get("expires_in")) || undefined,
+          token_type: params.get("token_type") || "bearer",
+          user,
+        };
+        storeSession(session);
+        setSession(session);
+        window.history.replaceState(null, "", window.location.pathname + window.location.search);
+        return;
+      }
+    }
+
     const stored = getStoredSession();
     if (!stored?.access_token) return;
     if (isExpired(stored)) {
