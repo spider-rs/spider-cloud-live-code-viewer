@@ -141,7 +141,9 @@ const AuthDropdown = ({
       const json = await res.json();
 
       if (json?.error) {
-        toast({ title: "Auth Error", description: json.error?.message || json.error, variant: "destructive" });
+        const err = json.error;
+        const msg = typeof err === "string" ? err : err?.message || err?.code || err?.name || "Authentication failed";
+        toast({ title: "Auth Error", description: msg, variant: "destructive" });
       }
 
       let session = json?.data?.session ?? json?.data?.user ?? json?.session ?? json?.user;
