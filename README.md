@@ -1,6 +1,6 @@
 # Spider Archiver
 
-Crawl and archive websites using [spider.cloud](https://spider.cloud). Browse saved pages in a VSCode-like interface with syntax highlighting, a file tree, and resizable panels.
+Crawl and archive websites using [spider.cloud](https://spider.cloud). Browse crawled pages in a sidebar, inspect source HTML in a Monaco editor, and download individual pages or full archives.
 
 **Live:** [archiver.spider.cloud](https://archiver.spider.cloud)
 
@@ -11,9 +11,10 @@ Crawl and archive websites using [spider.cloud](https://spider.cloud). Browse sa
 ## Features
 
 - Stream-crawl websites via the Spider API and view results in real time
-- Monaco editor with syntax highlighting for HTML, Markdown, and plain text
-- File tree sidebar to navigate crawled pages
-- IndexedDB persistence — pages survive page reloads
+- Page list sidebar with title, URL, size, and status badges
+- Read-only Monaco editor with HTML syntax highlighting
+- Copy or download individual page source
+- Export All — download every crawled page as a single combined HTML file
 - Cross-app switcher to jump between all [Spider Cloud](https://spider.cloud) tools with the current URL pre-filled
 - Configurable crawl limit, return format (raw / markdown / text), and request mode (HTTP / Chrome / Smart)
 
