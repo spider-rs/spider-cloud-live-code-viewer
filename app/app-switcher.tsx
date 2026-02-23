@@ -18,6 +18,9 @@ const APPS = [
   { id: "diff-monitor", name: "Diff Monitor", desc: "Track page changes over time", subdomain: "diff-monitor" },
   { id: "sitemap-generator", name: "Sitemap Generator", desc: "Generate XML sitemaps", subdomain: "sitemap-generator" },
   { id: "link-graph", name: "Link Graph", desc: "Visualize site link structure", subdomain: "link-graph" },
+  { id: "tech-detector", name: "Tech Detector", desc: "Detect website tech stacks", subdomain: "tech-detector" },
+  { id: "schema-validator", name: "Schema Validator", desc: "Validate structured data", subdomain: "schema-validator" },
+  { id: "security-scanner", name: "Security Scanner", desc: "Scan security headers", subdomain: "security-scanner" },
 ] as const;
 
 const AppSwitcher = ({ currentUrl }: { currentUrl: string }) => {

@@ -23,7 +23,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import AuthDropdown, { useAuthMenu, supabase } from "./auth";
+import AuthDropdown, { useAuthMenu } from "./auth";
 import AppSwitcher from "./app-switcher";
 import { savePages } from "@/lib/storage";
 
@@ -259,7 +259,7 @@ const SearchBar = ({
   const onLogoutEvent = async (e: SyntheticEvent<HTMLButtonElement>) => {
     e.preventDefault();
     e.stopPropagation();
-    await supabase.auth.signOut();
+    await auth.signOut();
     closeConfigModal();
   };
 
