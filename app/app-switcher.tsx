@@ -10,6 +10,8 @@ const APPS = [
   { id: "archiver", name: "Archiver", desc: "Archive & view page source", subdomain: "archiver" },
   { id: "dead-link-checker", name: "Dead Link Checker", desc: "Find broken links", subdomain: "dead-link-checker" },
   { id: "a11y-checker", name: "A11y Checker", desc: "Audit accessibility issues", subdomain: "a11y-checker" },
+  { id: "seo-auditor", name: "SEO Auditor", desc: "Audit SEO issues", subdomain: "seo-auditor" },
+  { id: "content-extractor", name: "Content Extractor", desc: "Extract structured content", subdomain: "content-extractor" },
   { id: "knowledge-base", name: "Knowledge Base", desc: "Build a searchable knowledge base", subdomain: "knowledge-base" },
   { id: "perf-runner", name: "Perf Runner", desc: "Measure page performance", subdomain: "perf-runner" },
   { id: "content-translator", name: "Content Translator", desc: "Translate page content", subdomain: "content-translator" },
