@@ -33,6 +33,7 @@ enum StorageKeys {
   Limit = "@app/crawl_limit",
   ReturnFormat = "@app/return_format",
   Request = "@app/request",
+  FullResources = "@app/full_resources",
 }
 
 const localStorageReady = typeof localStorage !== "undefined";
@@ -58,6 +59,12 @@ const loadDefaultRequest = () => {
   const request = localStorage.getItem(StorageKeys.Request);
   return request || "smart";
 };
+const loadDefaultFullResources = () => {
+  if (!localStorageReady) {
+    return false;
+  }
+  return localStorage.getItem(StorageKeys.FullResources) === "true";
+};
 
 const SearchBar = ({
   setDataValues,
@@ -75,6 +82,7 @@ const SearchBar = ({
   );
   const [apiKey, setAPIKey] = useState<string>("");
   const [request, setRequest] = useState<string>(loadDefaultRequest());
+  const [fullResources, setFullResources] = useState<boolean>(loadDefaultFullResources());
 
   const crawledPagesRef = useRef<any[]>([]);
   const streamBufferRef = useRef<string>("");
@@ -123,12 +131,16 @@ const SearchBar = ({
 
     const _url = urlList.join(",");
 
-    const paramValues = {
+    const paramValues: Record<string, any> = {
       url: _url,
       limit: crawlLimit,
       return_format: returnFormat,
       request,
     };
+
+    if (fullResources) {
+      paramValues.full_resources = true;
+    }
 
     setDataLoading(true);
     crawledPagesRef.current = [];
@@ -267,6 +279,7 @@ const SearchBar = ({
     localStorage.setItem(StorageKeys.Limit, crawlLimit + "");
     localStorage.setItem(StorageKeys.Request, request + "");
     localStorage.setItem(StorageKeys.ReturnFormat, returnFormat + "");
+    localStorage.setItem(StorageKeys.FullResources, fullResources + "");
 
     closeConfigModal();
   };
@@ -387,6 +400,24 @@ const SearchBar = ({
                     <SelectItem value="http">HTTP</SelectItem>
                     <SelectItem value="chrome">Chrome</SelectItem>
                     <SelectItem value="smart">Smart Mode</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="flex items-center">
+                <Label htmlFor="fullResources" className="flex-1">
+                  Full Resources:
+                </Label>
+                <Select
+                  onValueChange={(v: string) => setFullResources(v === "true")}
+                  defaultValue={fullResources ? "true" : "false"}
+                >
+                  <SelectTrigger className="w-[180px]">
+                    <SelectValue placeholder="Off" id="fullResources" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="false">Off</SelectItem>
+                    <SelectItem value="true">On</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
